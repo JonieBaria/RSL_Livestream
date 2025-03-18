@@ -2,11 +2,10 @@ const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {
   host: "rsl-livestream.onrender.com",
-  path: "/peerjs",
   port: "443",
 });
 const myVideo = document.createElement("video");
-myVideo.muted = true;
+// myVideo.muted = true;
 const peers = {};
 navigator.mediaDevices
   .getUserMedia({
