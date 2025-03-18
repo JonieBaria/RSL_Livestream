@@ -3,10 +3,13 @@ const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {
   host: "rsl-livestream.onrender.com",
   port: "443",
+  path: "/peerjs",
+  secure: true,
 });
 const myVideo = document.createElement("video");
-// myVideo.muted = true;
+myVideo.muted = true;
 const peers = {};
+
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -26,6 +29,9 @@ navigator.mediaDevices
     socket.on("user-connected", (userId) => {
       connectToNewUser(userId, stream);
     });
+  })
+  .catch((error) => {
+    console.error("Error accessing media devices:", error);
   });
 
 socket.on("user-disconnected", (userId) => {
@@ -38,6 +44,8 @@ myPeer.on("open", (id) => {
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
+  if (!call) return;
+
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
