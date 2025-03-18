@@ -13,7 +13,7 @@ app.use(express.static("public"));
 
 // Initialize PeerJS server
 const peerServer = ExpressPeerServer(server, {
-  path: "/peerjs",
+  path: "/",
 });
 app.use("/peerjs", peerServer);
 
