@@ -1,18 +1,17 @@
-import Peer from "peerjs";
-import { io } from "socket.io-client";
-
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {
-  host: "/",
+  host: "rsl-livestream.onrender.com",
   port: "443",
 });
 const myVideo = document.createElement("video");
 myVideo.muted = true;
 const peers = {};
-
 navigator.mediaDevices
-  .getUserMedia({ video: true, audio: true })
+  .getUserMedia({
+    video: true,
+    audio: true,
+  })
   .then((stream) => {
     addVideoStream(myVideo, stream);
 
