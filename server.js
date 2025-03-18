@@ -1,5 +1,4 @@
 const express = require("express");
-const { Socket } = require("socket.io");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -19,7 +18,11 @@ app.get("/:room", (req, res) => {
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
     socket.join(roomId);
-    socket.broadcast.to(roomId).emit("user-connected", userId); // Use `socket.broadcast`
+    socket.to(roomId).broadcast.emit("user-connected", userId);
+
+    socket.on("disconnect", () => {
+      socket.to(roomId).broadcast.emit("user-disconnected", userId);
+    });
   });
 });
 
